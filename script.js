@@ -1,60 +1,70 @@
-let x, y, width, height, ctr, spd, pos;
+// canvas variables
+let scaleFactor = 0.8;
 
+// gameplay variables
+let pos, spd;
+
+// intial setup
 function setup() {
-  width = windowWidth * 0.8;
-  height = windowHeight * 0.8;
-  x = width / 2;
-  y = height / 2;
+  pos = [(windowWidth * scaleFactor) / 2, (windowHeight * scaleFactor) / 2];
   spd = 3;
-  pos = [x, y];
 
-  var canvas = createCanvas(width, height);
+  var canvas = createCanvas(
+    windowWidth * scaleFactor,
+    windowHeight * scaleFactor
+  );
   canvas.parent(Container);
   canvas.style("display", "block");
 }
 
+// draw loop
 function draw() {
-  //function userMvmt(x, y) {
-  // detects user input
-  if (keyIsPressed) {
-    if (keyIsDown(UP_ARROW)) {
-      y -= spd;
-    }
-    if (keyIsDown(DOWN_ARROW)) {
-      y += spd;
-    }
-    if (keyIsDown(LEFT_ARROW)) {
-      x -= spd;
-    }
-    if (keyIsDown(RIGHT_ARROW)) {
-      x += spd;
-    }
-
-    // detects collisions to the edges
-    x = constrain(x, 0, width);
-    y = constrain(y, 0, height);
-    pos = [x, y];
-  }
-  //}
-
   background("#18181b");
-
-  //pos = userMvmt(x, y);
-
+  userMovement(pos);
   circle(pos[0], pos[1], 12);
 }
 
-class Cell {
-  constructor(name, status, viability, fitnessScore, mutationRate) {
-    this.name = name;
-    this.status = status; // bool: cells is alive or dead
-    this.viability = viability;
-    this.fitnessScore = fitnessScore;
-    this.mutationRate = mutationRate;
+// GAMEPLAY FUNCTIONS //
+
+// defining main user movement logic
+function userMovement(pos) {
+  // moves the cell according to arrow presses
+  if (keyIsPressed) {
+    if (keyIsDown(LEFT_ARROW)) {
+      pos[0] -= spd;
+    }
+    if (keyIsDown(RIGHT_ARROW)) {
+      pos[0] += spd;
+    }
+    if (keyIsDown(UP_ARROW)) {
+      pos[1] -= spd;
+    }
+    if (keyIsDown(DOWN_ARROW)) {
+      pos[1] += spd;
+    }
+
+    // detects collisions to the edges of the canvas
+    pos[0] = constrain(pos[0], 0, windowWidth * scaleFactor);
+    pos[1] = constrain(pos[1], 0, windowHeight * scaleFactor);
   }
 
-  isHit(factor) {
-    console.log(`${this.name} was hit!`);
-    this.viability -= factor;
+  // detects if the player is not visible and resets its position to the origin
+
+  if (pos[0] < 0 || pos[0] > windowWidth * scaleFactor) {
+    pos[0] = (windowWidth * scaleFactor) / 2;
   }
+  if (pos[1] < 0 || pos[1] > windowHeight * scaleFactor) {
+    pos[1] = (windowHeight * scaleFactor) / 2;
+  }
+
+  console.log(pos[0], windowWidth * scaleFactor);
 }
+
+// UI & UX FUNCTIONS //
+
+// readjusts the canvas size if the screen has changed
+function windowResized() {
+  resizeCanvas(windowWidth * scaleFactor, windowHeight * scaleFactor);
+}
+
+// TODO:  should the player have to press a button to eat? this can be the proxy for fitness
