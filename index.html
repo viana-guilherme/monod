@@ -11,28 +11,27 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" type="text/css" href="style.css" />
-    <title>Document</title>
+    <script src="libraries/p5.js"></script>
+    <title>monod</title>
   </head>
   <body>
     <script src="script.js"></script>
-    <script src="libraries/p5.js"></script>
-    <div class="header">
-      <h1>monod | the adaptive laboratory evolution game</h1>
-    </div>
-    <div class="container">
-      <div class="canvas">
-        <canvas id="game-canvas"></canvas>
+    <div id="Root">
+      <div class="header">
+        <h1>monod | the adaptive laboratory evolution game</h1>
       </div>
-      <div class="hud">
-        <div class="main-stats">
-          <ul>
-            <li class="stat">Viability</li>
-            <li class="stat-value">100%</li>
-            <li class="stat">Mutation rate</li>
-            <li class="stat-value">1x</li>
-            <li class="stat">Accumulated mutations</li>
-            <li class="stat-value">4621</li>
-          </ul>
+      <div id="Container">
+        <div class="hud">
+          <div class="main-stats">
+            <ul>
+              <li class="stat">Viability</li>
+              <li class="stat-value">100%</li>
+              <li class="stat">Mutation rate</li>
+              <li class="stat-value">1x</li>
+              <li class="stat">Accumulated mutations</li>
+              <li class="stat-value">4621</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>

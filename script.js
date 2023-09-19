@@ -1,11 +1,47 @@
+let x, y, width, height, ctr, spd, pos;
+
 function setup() {
-  let canvas = createCanvas(400, 400);
-  canvas.parent("game-canvas");
-  background(125, 220, 180);
+  width = windowWidth * 0.8;
+  height = windowHeight * 0.8;
+  x = width / 2;
+  y = height / 2;
+  spd = 3;
+  pos = [x, y];
+
+  var canvas = createCanvas(width, height);
+  canvas.parent(Container);
+  canvas.style("display", "block");
 }
 
 function draw() {
-  // Your drawing and animation code goes here
+  //function userMvmt(x, y) {
+  // detects user input
+  if (keyIsPressed) {
+    if (keyIsDown(UP_ARROW)) {
+      y -= spd;
+    }
+    if (keyIsDown(DOWN_ARROW)) {
+      y += spd;
+    }
+    if (keyIsDown(LEFT_ARROW)) {
+      x -= spd;
+    }
+    if (keyIsDown(RIGHT_ARROW)) {
+      x += spd;
+    }
+
+    // detects collisions to the edges
+    x = constrain(x, 0, width);
+    y = constrain(y, 0, height);
+    pos = [x, y];
+  }
+  //}
+
+  background("#18181b");
+
+  //pos = userMvmt(x, y);
+
+  circle(pos[0], pos[1], 12);
 }
 
 class Cell {
