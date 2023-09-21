@@ -21,6 +21,7 @@ class Food {
     this.speed = 1;
     this.biasX = 1;
     this.biasY = 1;
+    this.amount = 15;
   }
   move() {
     // avoids wall collisions
@@ -53,7 +54,14 @@ class Food {
     );
     console.log(this.biasX, this.biasY);
   }
+
+  eaten() {
+    this.amount -= 0.05;
+  }
+
   display() {
-    circle(this.x, this.y, this.diameter);
+    if (this.amount > 0) {
+      circle(this.x, this.y, this.diameter);
+    }
   }
 }

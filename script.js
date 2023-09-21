@@ -3,6 +3,7 @@ let scaleFactor = 0.8;
 
 // gameplay variables
 let pos, spd;
+let food;
 
 // intial setup
 function setup() {
@@ -15,6 +16,8 @@ function setup() {
   );
   canvas.parent(Container);
   canvas.style("display", "block");
+
+  food = new Food();
 }
 
 // draw loop
@@ -22,6 +25,11 @@ function draw() {
   background("#18181b");
   userMovement(pos);
   circle(pos[0], pos[1], 12);
+
+  // the food
+  food.move();
+  food.eaten();
+  food.display();
 }
 
 // GAMEPLAY FUNCTIONS //
@@ -56,8 +64,6 @@ function userMovement(pos) {
   if (pos[1] < 0 || pos[1] > windowHeight * scaleFactor) {
     pos[1] = (windowHeight * scaleFactor) / 2;
   }
-
-  console.log(pos[0], windowWidth * scaleFactor);
 }
 
 // UI & UX FUNCTIONS //
@@ -68,3 +74,4 @@ function windowResized() {
 }
 
 // TODO:  should the player have to press a button to eat? this can be the proxy for fitness
+// food starts with one color and then changes to green / alpha before disappearing
