@@ -59,6 +59,10 @@ class Cell {
     }
   }
 
+  updateMutations() {
+    return (this.totalMutations += this.mutationRate * 10 ** -3);
+  }
+
   display() {
     circle(this.position[0], this.position[1], 12);
   }
