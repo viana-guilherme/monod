@@ -2,15 +2,16 @@
 let scaleFactor = 0.8;
 
 // gameplay variables
-let pos, spd;
+let player;
 let food = [];
-let nFood = 8;
+let nFood = 56;
 
 // intial setup
 function setup() {
-  pos = [(windowWidth * scaleFactor) / 2, (windowHeight * scaleFactor) / 2];
-  spd = 3;
+  // draw the player
+  player = new Cell();
 
+  // populate the game with food objects
   for (let i = 0; i < nFood; i++) {
     food.push(new Food());
   }
@@ -26,8 +27,10 @@ function setup() {
 // draw loop
 function draw() {
   background("#18181b");
-  userMovement(pos);
-  circle(pos[0], pos[1], 12);
+
+  //sets up the player
+  player.display();
+  player.move();
 
   // the food
   for (let i = 0; i < food.length; i++) {
@@ -38,40 +41,6 @@ function draw() {
     if (food[i].status == "depleted") {
       food.splice(i, 1);
     }
-  }
-}
-
-// GAMEPLAY FUNCTIONS //
-
-// defining main user movement logic
-function userMovement(pos) {
-  // moves the cell according to arrow presses
-  if (keyIsPressed) {
-    if (keyIsDown(LEFT_ARROW)) {
-      pos[0] -= spd;
-    }
-    if (keyIsDown(RIGHT_ARROW)) {
-      pos[0] += spd;
-    }
-    if (keyIsDown(UP_ARROW)) {
-      pos[1] -= spd;
-    }
-    if (keyIsDown(DOWN_ARROW)) {
-      pos[1] += spd;
-    }
-
-    // detects collisions to the edges of the canvas
-    pos[0] = constrain(pos[0], 0, windowWidth * scaleFactor);
-    pos[1] = constrain(pos[1], 0, windowHeight * scaleFactor);
-  }
-
-  // detects if the player is not visible and resets its position to the origin
-
-  if (pos[0] < 0 || pos[0] > windowWidth * scaleFactor) {
-    pos[0] = (windowWidth * scaleFactor) / 2;
-  }
-  if (pos[1] < 0 || pos[1] > windowHeight * scaleFactor) {
-    pos[1] = (windowHeight * scaleFactor) / 2;
   }
 }
 

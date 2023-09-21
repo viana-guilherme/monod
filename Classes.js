@@ -1,15 +1,66 @@
 class Cell {
-  constructor(name, status, viability, fitnessScore, mutationRate) {
+  constructor(
+    name = "player",
+    status = "alive",
+    viability = 100,
+    mutationRate = 1,
+    totalMutations = 0,
+    fitnessScore = 1,
+    position = [
+      (windowWidth * scaleFactor) / 2,
+      (windowHeight * scaleFactor) / 2,
+    ],
+    speed = 3
+  ) {
     this.name = name;
-    this.status = status; // bool: cells is alive or dead
+    this.status = status; // bool: cells are alive or dead
     this.viability = viability;
     this.fitnessScore = fitnessScore;
     this.mutationRate = mutationRate;
+    this.totalMutations = totalMutations;
+    this.position = position;
+    this.speed = speed;
   }
 
-  isHit(factor) {
-    console.log(`${this.name} was hit!`);
-    this.viability -= factor;
+  // defining main user movement logic
+  move() {
+    // moves the cell according to arrow presses
+    if (keyIsPressed) {
+      if (keyIsDown(LEFT_ARROW)) {
+        this.position[0] -= this.speed;
+      }
+      if (keyIsDown(RIGHT_ARROW)) {
+        this.position[0] += this.speed;
+      }
+      if (keyIsDown(UP_ARROW)) {
+        this.position[1] -= this.speed;
+      }
+      if (keyIsDown(DOWN_ARROW)) {
+        this.position[1] += this.speed;
+      }
+      // detects collisions to the edges of the canvas
+      this.position[0] = constrain(
+        this.position[0],
+        0,
+        windowWidth * scaleFactor
+      );
+      this.position[1] = constrain(
+        this.position[1],
+        0,
+        windowHeight * scaleFactor
+      );
+    }
+    // detects if the player is not visible and resets its position to the origin
+    if (this.position[0] < 0 || this.position[0] > windowWidth * scaleFactor) {
+      this.position[0] = (windowWidth * scaleFactor) / 2;
+    }
+    if (this.position[1] < 0 || this.position[1] > windowHeight * scaleFactor) {
+      this.position[1] = (windowHeight * scaleFactor) / 2;
+    }
+  }
+
+  display() {
+    circle(this.position[0], this.position[1], 12);
   }
 }
 
