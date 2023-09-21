@@ -3,12 +3,17 @@ let scaleFactor = 0.8;
 
 // gameplay variables
 let pos, spd;
-let food;
+let food = [];
+let nFood = 8;
 
 // intial setup
 function setup() {
   pos = [(windowWidth * scaleFactor) / 2, (windowHeight * scaleFactor) / 2];
   spd = 3;
+
+  for (let i = 0; i < nFood; i++) {
+    food.push(new Food());
+  }
 
   var canvas = createCanvas(
     windowWidth * scaleFactor,
@@ -16,8 +21,6 @@ function setup() {
   );
   canvas.parent(Container);
   canvas.style("display", "block");
-
-  food = new Food();
 }
 
 // draw loop
@@ -27,9 +30,15 @@ function draw() {
   circle(pos[0], pos[1], 12);
 
   // the food
-  food.move();
-  food.eaten();
-  food.display();
+  for (let i = 0; i < food.length; i++) {
+    food[i].move();
+    food[i].eaten();
+    food[i].display();
+
+    if (food[i].status == "depleted") {
+      food.splice(i, 1);
+    }
+  }
 }
 
 // GAMEPLAY FUNCTIONS //

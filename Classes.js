@@ -16,13 +16,16 @@ class Cell {
 class Food {
   constructor() {
     this.x = random(windowWidth * scaleFactor);
-    this.y = random(0, windowHeight * scaleFactor);
+    this.y = random(windowHeight * scaleFactor);
     this.diameter = 23;
-    this.speed = 1;
-    this.biasX = 1;
-    this.biasY = 1;
-    this.amount = 15;
+    this.speedX = random(1, 3);
+    this.speedY = random(1, 3);
+    this.biasX = random([-1, 1]);
+    this.biasY = random([-1, 1]);
+    this.amount = 100;
+    this.status = "full";
   }
+
   move() {
     // avoids wall collisions
     if (
@@ -31,7 +34,7 @@ class Food {
     ) {
       this.biasX *= -1;
     }
-    this.x += this.biasX * noise(this.x * this.speed);
+    this.x += this.biasX * noise(this.x) * this.speedX;
 
     if (
       this.y >= windowHeight * scaleFactor - this.diameter ||
@@ -39,7 +42,7 @@ class Food {
     ) {
       this.biasY *= -1;
     }
-    this.y += this.biasY * noise(this.y * this.speed);
+    this.y += this.biasY * noise(this.y) * this.speedY;
 
     // Prevents that the object goes out of bounds
     this.x = constrain(
@@ -52,16 +55,17 @@ class Food {
       this.diameter,
       windowHeight * scaleFactor - this.diameter
     );
-    console.log(this.biasX, this.biasY);
   }
 
   eaten() {
     this.amount -= 0.05;
+
+    if (this.amount <= 0) {
+      this.status = "depleted";
+    }
   }
 
   display() {
-    if (this.amount > 0) {
-      circle(this.x, this.y, this.diameter);
-    }
+    circle(this.x, this.y, this.diameter);
   }
 }
