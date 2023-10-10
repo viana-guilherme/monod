@@ -36,6 +36,12 @@ function draw() {
 
   updateMutationsUI();
 
+  // the camera movement
+  translate(
+    (windowWidth * scaleFactor) / 2 - player.position[0],
+    (windowHeight * scaleFactor) / 2 - player.position[1]
+  );
+
   // the food
   for (let i = 0; i < food.length; i++) {
     food[i].move();
